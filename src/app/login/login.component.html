@@ -3,18 +3,20 @@
     <div class="column">
 
     </div>
+    <div class="column has-text-centered">
+
+    </div>
     <div class="column">
 
     </div>
-    <div class="column has-text-centered">
+    <div class="column is-one-third has-text-centered">
       <div id="panel">
-        <img src="assets/images/trybiglogo.png" alt="logo">
         <form [formGroup]="myForm" (ngSubmit)="Login()">
           <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input formControlName="email" class="input is-rounded is-link is-hovered" type="email" placeholder="Email">
+                <input formControlName="username" class="input is-rounded is-link is-hovered" type="username" placeholder="Username">
                 <span class="icon is-small is-left">
-                  <i class="fa fas fa-envelope"></i>
+                  <i class="fa fas fa-user"></i>
                 </span>
               </p>
             </div>
@@ -32,18 +34,12 @@
                   Login
                 </button>
               </p>
-              <p class="help is-danger" *ngIf="!areCredentialsvalid">Email or Password incorrect</p>
+              <p class="help is-danger" *ngIf="!areCredentialsvalid">Username or Password incorrect</p>
             </div>
         </form>
         <br>
         <p class="help">Don't have an account? <a [routerLink]="['/Register']"> Sign Up</a>!</p>
       </div>
-    </div>
-    <div class="column">
-
-    </div>
-    <div class="column">
-      
     </div>
   </div>
 </section>
