@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { APIConnectionService } from '../../../Services/apiconnection.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { catchError, map, throwError } from 'rxjs';
+import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
+import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
 
 @Component({
     selector: 'app-register',
@@ -26,7 +28,7 @@ export class RegisterComponent {
 
     registerForm : FormGroup;
 
-    constructor(private apiconn : APIConnectionService, private fb : FormBuilder){
+    constructor(private apiconn : APIConnectionService, private fb : FormBuilder, private TS : JwtTokenContainerService){
         this.registerForm = this.fb.group({
             Name : [''],
             Email : [''],
@@ -38,16 +40,19 @@ export class RegisterComponent {
         event.preventDefault();
         this.apiconn.register(this.registerForm.value.Name, this.registerForm.value.Email, this.registerForm.value.Password)
         .pipe(
-            map((response) => {
-                console.log(response);
-                return {response}
+            catchError(error => {
+                if (error.status === 404) {
+
+                }
+                return throwError(() => new Error("Error occured"));
             }),
-            catchError((err) => {
-                return throwError(() => new Error(err));
+            map((response) => {
+                const data = response.body;
+                return{data};
             })
         ).subscribe({
-            next: ((response) => {
-                console.log(response);
+            next: ((data) => {
+                this.TS.SetToken(data.message);
             })
         })
     }

@@ -7,7 +7,7 @@ export class JwtTokenContainerService {
   
   token : string = "";
 
-  SetToken(token : string){
+  SetToken(token : any){
     this.token = token
   }
 
