@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, signal, Signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { APIConnectionService } from '../../../Services/apiconnection.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { catchError, map, throwError } from 'rxjs';
 
 @Component({
     selector: 'app-register',
-    imports: [RouterModule, CommonModule],
+    imports: [RouterModule, CommonModule, FormsModule, ReactiveFormsModule],
     templateUrl: './register.component.html',
     styleUrl: './register.component.css'
 })
@@ -37,6 +37,19 @@ export class RegisterComponent {
     Register(event : Event){
         event.preventDefault();
         this.apiconn.register(this.registerForm.value.Name, this.registerForm.value.Email, this.registerForm.value.Password)
+        .pipe(
+            map((response) => {
+                console.log(response);
+                return {response}
+            }),
+            catchError((err) => {
+                return throwError(() => new Error(err));
+            })
+        ).subscribe({
+            next: ((response) => {
+                console.log(response);
+            })
+        })
     }
 
     assignUsername(event : Event){
