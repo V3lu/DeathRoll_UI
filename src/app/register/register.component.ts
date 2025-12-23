@@ -63,7 +63,6 @@ export class RegisterComponent {
                     createdAt: data.data.user.createdAt,
                     Rolls: data.data.user.rolls,
                 }
-
                 this.loggedUserData.LoggedUser = user;
             })
         })
@@ -160,7 +159,9 @@ export class RegisterComponent {
 
     tryUnlockSubmitButton(){
         if (this.passwordSignal() != '' && this.emailSignal() != '' && this.nameSignal() != ''){
-            document.getElementById("btnsub")?.removeAttribute('disabled');
+            if(this.isEmailProper && this.isPasswordProper && this.isUsernameProper){
+                document.getElementById("btnsub")?.removeAttribute('disabled');
+            }
         }
         else{
             document.getElementById("btnsub")?.setAttribute('disabled', 'disabled');
