@@ -12,7 +12,7 @@ export class APIConnectionService {
   CheckEmailViabilityEndpoint = "http://localhost:8080/Auth/CheckEmailViability";
   CheckUsernameViabilityEndpoint = "http://localhost:8080/Auth/CheckUsernameViability";
 
-  constructor(private http : HttpClient, private tokenContainer : JwtTokenContainerService){}
+  constructor(private http : HttpClient, private TS : JwtTokenContainerService){}
 
   login(username : string, hashedPassword : string){
     return this.http.post<any>(this.loginEndpoint, {username, hashedPassword}, {observe: 'response'});

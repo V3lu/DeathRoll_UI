@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { catchError, map, throwError } from 'rxjs';
 import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
 import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
+import { User } from '../../../Models/User';
 
 @Component({
     selector: 'app-register',
@@ -28,7 +29,7 @@ export class RegisterComponent {
 
     registerForm : FormGroup;
 
-    constructor(private apiconn : APIConnectionService, private fb : FormBuilder, private TS : JwtTokenContainerService){
+    constructor(private apiconn : APIConnectionService, private fb : FormBuilder, private TS : JwtTokenContainerService, private loggedUserData : LoggedUserDataService){
         this.registerForm = this.fb.group({
             Name : [''],
             Email : [''],
@@ -51,8 +52,19 @@ export class RegisterComponent {
                 return{data};
             })
         ).subscribe({
-            next: ((data) => {
-                this.TS.SetToken(data.message);
+            next: ((data : any) => {
+                this.TS.SetToken(data.data.token);
+                const user : User = {
+                    Id: data.data.user.id,
+                    Username: data.data.user.username,
+                    Email: data.data.user.email,
+                    Gold: data.data.user.gold,
+                    Dollars: data.data.user.dollars,
+                    createdAt: data.data.user.createdAt,
+                    Rolls: data.data.user.rolls,
+                }
+
+                this.loggedUserData.LoggedUser = user;
             })
         })
     }
