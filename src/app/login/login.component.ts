@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { map } from 'rxjs';
+import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
+import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
+import { User } from '../../../Models/User';
 
 
 @Component({
@@ -16,9 +19,9 @@ import { map } from 'rxjs';
 })
 export class LoginComponent {
     myForm: FormGroup;
-    areCredentialsvalid : boolean = true;
+    areCredentialsInvalid : boolean = true;
 
-    constructor(private apiconn : APIConnectionService, private fb : FormBuilder){
+    constructor(private apiconn : APIConnectionService, private fb : FormBuilder, private TS : JwtTokenContainerService, private loggedUserData : LoggedUserDataService){
         this.myForm = this.fb.group({
             username: [''],
             password: ['']
@@ -29,7 +32,7 @@ export class LoginComponent {
         this.apiconn.login(this.myForm.value.username, this.myForm.value.password)
         .pipe(
             catchError(error => {
-                console.log(error);
+                this.areCredentialsInvalid = true;
                 return throwError(() => error)
             }),
             map((response) => {
@@ -37,8 +40,22 @@ export class LoginComponent {
                 return response
             })
         )
-        .subscribe((response) => {
-            console.log(response + ": Subscribed");
+        .subscribe({
+            next: ((response : any) => {
+                this.TS.SetToken(response.body.token);
+                this.areCredentialsInvalid = false;
+                const user : User = {
+                    Id: response.body.user.id,
+                    Username: response.body.user.username,
+                    Email: response.body.user.email,
+                    Gold: response.body.user.gold,
+                    Dollars: response.body.user.dollars,
+                    createdAt: response.body.user.createdAt,
+                    Rolls: response.body.user.rolls,
+                }
+                this.loggedUserData.LoggedUser = user;
+                console.log(this.loggedUserData.LoggedUser);
+            })
         })
     }
 }

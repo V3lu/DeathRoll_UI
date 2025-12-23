@@ -39,7 +39,7 @@ export class RegisterComponent {
 
     Register(event : Event){
         event.preventDefault();
-        this.apiconn.register(this.registerForm.value.Name, this.registerForm.value.Email, this.registerForm.value.Password)
+        this.apiconn.register(this.registerForm.value.Name,  this.registerForm.value.Password, this.registerForm.value.Email)
         .pipe(
             catchError(error => {
                 if (error.status === 404) {
