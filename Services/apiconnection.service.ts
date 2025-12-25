@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtTokenContainerService } from './jwt-token-container.service';
 
@@ -9,8 +9,9 @@ export class APIConnectionService {
 
   loginEndpoint = "http://localhost:8080/Auth/Login";
   registerEndpoint = "http://localhost:8080/Auth/Register";
-  CheckEmailViabilityEndpoint = "http://localhost:8080/Auth/CheckEmailViability";
-  CheckUsernameViabilityEndpoint = "http://localhost:8080/Auth/CheckUsernameViability";
+  checkEmailViabilityEndpoint = "http://localhost:8080/Auth/CheckEmailViability";
+  checkUsernameViabilityEndpoint = "http://localhost:8080/Auth/CheckUsernameViability";
+  gamePlaceRollEndpoint = "http://localhost:8080/Game/PlaceRoll";
 
   constructor(private http : HttpClient, private TS : JwtTokenContainerService){}
 
@@ -23,11 +24,19 @@ export class APIConnectionService {
   }
 
   CheckUsernameViability(username : string){
-    return this.http.post<any>(this.CheckUsernameViabilityEndpoint, {username}, {observe: 'response'});
+    return this.http.post<any>(this.checkUsernameViabilityEndpoint, {username}, {observe: 'response'});
   }
 
   CheckEmailViability(email : string){
-    return this.http.post<any>(this.CheckEmailViabilityEndpoint, {email}, {observe: 'response'});
+    return this.http.post<any>(this.checkEmailViabilityEndpoint, {email}, {observe: 'response'});
+  }
+
+  GamePlaceRoll(userId : any, rollBase : any){
+    const token = this.TS.GetToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(this.gamePlaceRollEndpoint, {userId, rollBase}, {observe: 'response', headers: headers })
   }
 
 

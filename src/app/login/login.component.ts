@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { APIConnectionService } from '../../../Services/apiconnection.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,7 @@ export class LoginComponent {
     myForm: FormGroup;
     areCredentialsInvalid : boolean = true;
 
-    constructor(private apiconn : APIConnectionService, private fb : FormBuilder, private TS : JwtTokenContainerService, private loggedUserData : LoggedUserDataService){
+    constructor(private apiconn : APIConnectionService, private router : Router, private fb : FormBuilder, private TS : JwtTokenContainerService, private loggedUserData : LoggedUserDataService){
         this.myForm = this.fb.group({
             username: [''],
             password: ['']
@@ -54,6 +54,7 @@ export class LoginComponent {
                     Rolls: response.body.user.rolls,
                 }
                 this.loggedUserData.LoggedUser = user;
+                this.router.navigate(['/Game']);
                 console.log(this.loggedUserData.LoggedUser);
             })
         })
