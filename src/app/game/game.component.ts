@@ -27,6 +27,19 @@ export class GameComponent {
         .pipe(
             map((response) => {
                 console.log(response);
+                return response;
+            })
+        ).subscribe();
+
+        this.apiconn.SimilarBetOpponentsEndpoint(this.loggedUserData.LoggedUser.Id, this.myForm.value.roll)
+        .pipe(
+            map((response) => {
+                console.log(response);
+                return response;
+            }),
+            catchError((error) => {
+                console.error('Error fetching similar bet opponents:', error);
+                return [];
             })
         ).subscribe();
     }
