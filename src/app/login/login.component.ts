@@ -9,6 +9,7 @@ import { map } from 'rxjs';
 import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
 import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
 import { User } from '../../../Models/User';
+import { Roll } from '../../../Models/Roll';
 
 
 @Component({
@@ -36,14 +37,14 @@ export class LoginComponent {
                 return throwError(() => error)
             }),
             map((response) => {
-                console.log(response);
-                return response
+                return response;
             })
         )
         .subscribe({
             next: ((response : any) => {
                 this.TS.SetToken(response.body.token);
                 this.areCredentialsInvalid = false;
+                console.log(response.body.user);
                 const user : User = {
                     Id: response.body.user.id,
                     Username: response.body.user.username,
