@@ -1,9 +1,46 @@
 <section class="hero is-fullheight is-dark" >
   <div class="columns is-vcentered">
     <div class="column">
-        <div class="opponents">
-
-        </div>
+      <div class="opponents">
+        <article class="panel">
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input class="input is-hovered is-rounded is-link" type="text" placeholder="Filter by username" [value]="filter()" (keyup)="FilterBets($event)"/>
+              <span class="icon is-left">
+                <i class="fa fas fa-search" aria-hidden="true"></i>
+              </span>
+            </p>
+          </div>
+  
+          @for (roll of similarRolls; track roll) {
+            <div class="panel-block is-block">
+              <div class="columns is-vcentered">
+                <div class="column has-text-centered is-one-fifth">
+                  <figure class="image is-inline-block">
+                    <img class={{roll.RollBase}} alt="Image"/>
+                  </figure>
+                </div>
+                <div class="column has-text-left">
+                  <strong>{{roll.User?.Username}}</strong>
+                  {{roll.RolledNumber}}
+                </div>
+                <div class="column has-icons-right has-text-right is-one-fifth">
+                  <div class="columns is-vcentered">
+                    <div class="column"></div>
+                    <div class="column has-icons-left has-text-left is-two-fifth">
+                      <a>
+                        <span class="icon is-small" style="font-size: 25px;">
+                          <i class="fa fas fa-envelope" aria-hidden="true" (click)="AcceptRoll(roll)"></i>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </article>
+      </div>
     </div>
     <div class="column">
         <div class="rolls">

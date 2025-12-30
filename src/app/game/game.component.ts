@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal, Signal } from '@angular/core';
 import { APIConnectionService } from '../../../Services/apiconnection.service';
 import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
 import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { catchError, map } from 'rxjs';
+import { catchError, map, single } from 'rxjs';
+import { Roll } from '../../../Models/Roll';
 
 @Component({
     selector: 'app-game',
@@ -14,6 +15,9 @@ import { catchError, map } from 'rxjs';
     styleUrl: './game.component.css'
 })
 export class GameComponent {
+
+    filter = signal('');
+    similarRolls : Roll[] = [];
 
     myForm! : FormGroup;
     constructor(private apiconn : APIConnectionService, private TC : JwtTokenContainerService, private loggedUserData : LoggedUserDataService, private fb : FormBuilder){
@@ -33,7 +37,11 @@ export class GameComponent {
 
     }
 
-    AcceptRoll(){
+    FilterBets(event : any){
+        this.filter.set(event.target.value);
+    }
+
+    AcceptRoll(roll : Roll){
 
     }
 
