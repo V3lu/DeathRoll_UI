@@ -40,7 +40,7 @@ export class APIConnectionService {
     return this.http.post<any>(this.gamePlaceRollEndpoint, {userId, rollBase}, {observe: 'response', headers: headers })
   }
 
-  SimilarBetOpponentsEndpoint(userId : any, rollBase : any){
+  SimilarBetOpponents(userId : any, rollBase : any){
     const token = this.TS.GetToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

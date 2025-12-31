@@ -35,6 +35,8 @@ export class GameComponent {
             })
         ).subscribe();
 
+        
+
     }
 
     FilterBets(event : any){
