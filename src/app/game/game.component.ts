@@ -26,7 +26,7 @@ export class GameComponent {
         })
     }
 
-    PlaceRoll(){
+    async PlaceRoll(){
         this.apiconn.GamePlaceRoll(this.loggedUserData.LoggedUser.Id, this.myForm.value.roll)
         .pipe(
             map((response) => {
@@ -35,7 +35,17 @@ export class GameComponent {
             })
         ).subscribe();
 
-        
+        this.apiconn.SimilarBetOpponents(this.loggedUserData.LoggedUser.Id, this.myForm.value.roll)
+        .pipe(
+            map((response) => {
+                console.log(response);
+                return response;
+            })
+        ).subscribe({
+            next : ((response : any) => {
+                this.similarRolls = response.body;
+            })
+        });
 
     }
 
