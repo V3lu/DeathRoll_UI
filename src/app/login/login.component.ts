@@ -44,15 +44,13 @@ export class LoginComponent {
             next: ((response : any) => {
                 this.TS.SetToken(response.body.token);
                 this.areCredentialsInvalid = false;
-                console.log(response.body.user);
                 const user : User = {
-                    Id: response.body.user.id,
-                    Username: response.body.user.username,
-                    Email: response.body.user.email,
-                    Gold: response.body.user.gold,
-                    Dollars: response.body.user.dollars,
-                    createdAt: response.body.user.createdAt,
-                    Rolls: response.body.user.rolls,
+                    Id: response.body.userDTO.id,
+                    Username: response.body.userDTO.username,
+                    Gold: response.body.userDTO.gold,
+                    Dollars: response.body.userDTO.dollars,
+                    createdAt: response.body.userDTO.createdAt,
+                    Rolls: response.body.userDTO.rolls,
                 }
                 this.loggedUserData.LoggedUser = user;
                 this.router.navigate(['/Game']);
