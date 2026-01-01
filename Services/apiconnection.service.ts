@@ -13,6 +13,7 @@ export class APIConnectionService {
   checkUsernameViabilityEndpoint = "http://localhost:8080/Auth/CheckUsernameViability";
   gamePlaceRollEndpoint = "http://localhost:8080/Game/PlaceRoll";
   similarBetOpponentsEndpoint = "http://localhost:8080/Game/SimilarBetOpponents";
+  acceptRollChallengeEndpoint = "http://localhost:8080/Game/AcceptRollChallenge";
 
   constructor(private http : HttpClient, private TS : JwtTokenContainerService){}
 
@@ -48,7 +49,13 @@ export class APIConnectionService {
     return this.http.post<any>(this.similarBetOpponentsEndpoint, {userId, rollBase}, {observe: 'response', headers: headers });
   }
 
-
+  AcceptRollChallenge(username : any, rollId : any){
+    const token = this.TS.GetToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(this.acceptRollChallengeEndpoint, {username, rollId}, {observe: 'response', headers: headers });
+  }
 
 
 

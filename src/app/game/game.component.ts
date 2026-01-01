@@ -54,7 +54,21 @@ export class GameComponent {
     }
 
     AcceptRoll(roll : Roll){
-
+        this.apiconn.AcceptRollChallenge(this.myForm.value.username, roll.Id)
+        .pipe(
+            map((response) => {
+                console.log(response);
+                return response;
+            }),
+            catchError((error) => {
+                console.error('Error in AcceptRoll:', error);
+                throw error;
+            })
+        ).subscribe({
+            next : ((response : any) => {
+                console.log(response)
+            }),
+        });
     }
 
     PlayRoll(){
