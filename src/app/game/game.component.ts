@@ -53,7 +53,7 @@ export class GameComponent {
         this.filter.set(event.target.value);
     }
 
-    AcceptRoll(roll : Roll){
+    async AcceptRoll(roll : Roll){
         this.apiconn.AcceptRollChallenge(this.myForm.value.username, roll.Id)
         .pipe(
             map((response) => {
