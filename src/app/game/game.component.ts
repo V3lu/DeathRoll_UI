@@ -5,7 +5,7 @@ import { LoggedUserDataService } from '../../../Services/logged-user-data.servic
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { catchError, map, single } from 'rxjs';
+import { catchError, concatMap, map, single } from 'rxjs';
 import { Roll } from '../../../Models/Roll';
 
 @Component({
@@ -26,27 +26,25 @@ export class GameComponent {
         })
     }
 
-    async PlaceRoll(){
-        this.apiconn.GamePlaceRoll(this.loggedUserData.LoggedUser.Id, this.myForm.value.roll)
-        .pipe(
-            map((response) => {
-                console.log(response);
-                return response;
-            })
-        ).subscribe();
+    async PlaceRoll() {
+        const rollValue = this.myForm.value.roll;
+        const userId = this.loggedUserData.LoggedUser.Id;
 
-        this.apiconn.SimilarBetOpponents(this.loggedUserData.LoggedUser.Id, this.myForm.value.roll)
+        this.apiconn.GamePlaceRoll(userId, rollValue)
         .pipe(
-            map((response) => {
-                console.log(response);
-                return response;
+            concatMap((PlaceRollResponse) => {
+                console.log('Roll placed', PlaceRollResponse);
+                return this.apiconn.SimilarBetOpponents(userId, rollValue);
             })
         ).subscribe({
-            next : ((response : any) => {
-                this.similarRolls = response.body;
-            })
-        });
-
+            next: (SimilarBetsResponse => {
+                console.log('Similar bets:', SimilarBetsResponse);
+                this.similarRolls = SimilarBetsResponse.body;
+            }),
+            error: (error) => {
+                console.error('Error fetching similar bets:', error);
+            }
+        })
     }
 
     FilterBets(event : any){
