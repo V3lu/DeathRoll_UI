@@ -17,7 +17,7 @@ import { Roll } from '../../../Models/Roll';
 export class GameComponent {
 
     filter = signal('');
-    similarRolls : Roll[] = [];
+    similarRolls : any;
 
     myForm! : FormGroup;
     constructor(private apiconn : APIConnectionService, private TC : JwtTokenContainerService, private loggedUserData : LoggedUserDataService, private fb : FormBuilder){
@@ -38,7 +38,6 @@ export class GameComponent {
             })
         ).subscribe({
             next: (SimilarBetsResponse => {
-                console.log('Similar bets:', SimilarBetsResponse);
                 this.similarRolls = SimilarBetsResponse.body;
             }),
             error: (error) => {
