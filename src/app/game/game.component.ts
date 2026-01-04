@@ -33,7 +33,7 @@ export class GameComponent {
         this.apiconn.GamePlaceRoll(userId, rollValue)
         .pipe(
             concatMap((PlaceRollResponse) => {
-                console.log('Roll placed', PlaceRollResponse);
+                console.log('Roll placed');
                 return this.apiconn.SimilarBetOpponents(userId, rollValue);
             })
         ).subscribe({
@@ -46,12 +46,20 @@ export class GameComponent {
         })
     }
 
-    FilterBets(event : any){
+    FilterBets(event : any): void{
         this.filter.set(event.target.value);
     }
 
-    async AcceptRoll(roll : Roll){
-        this.apiconn.AcceptRollChallenge(this.myForm.value.username, roll.Id)
+    AcceptRoll(roll : any): void{
+        this.TriggerInGameStatusForBothPlayers(this.loggedUserData.LoggedUser.Id!, roll.username);
+    }
+
+    PlayRoll(){
+        
+    }
+
+    TriggerInGameStatusForBothPlayers(username1 : string, username2 : string): void {
+        this.apiconn.EnableInGameState(username1)
         .pipe(
             map((response) => {
                 console.log(response);
@@ -66,9 +74,21 @@ export class GameComponent {
                 console.log(response)
             }),
         });
-    }
 
-    PlayRoll(){
-        
+        this.apiconn.EnableInGameState(username2)
+        .pipe(
+            map((response) => {
+                console.log(response);
+                return response;
+            }),
+            catchError((error) => {
+                console.error('Error in AcceptRoll:', error);
+                throw error;
+            })
+        ).subscribe({
+            next : ((response : any) => {
+                console.log(response)
+            }),
+        });
     }
 }

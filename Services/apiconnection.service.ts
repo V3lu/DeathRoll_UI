@@ -13,6 +13,8 @@ export class APIConnectionService {
   checkUsernameViabilityEndpoint = "http://localhost:8080/Auth/CheckUsernameViability";
   gamePlaceRollEndpoint = "http://localhost:8080/Game/PlaceRoll";
   similarBetOpponentsEndpoint = "http://localhost:8080/Game/SimilarBetOpponents";
+  enableInGameStateEndpoint = "http://localhost:8080/InGameStatus/EnableInGameStatus";
+  disableInGameStateEndpoint = "http://localhost:8080/InGameStatus/DisableInGameStatus";
   acceptRollChallengeEndpoint = "http://localhost:8080/Game/AcceptRollChallenge";
 
   constructor(private http : HttpClient, private TS : JwtTokenContainerService){}
@@ -57,7 +59,21 @@ export class APIConnectionService {
     return this.http.post<any>(this.acceptRollChallengeEndpoint, {username, rollId}, {observe: 'response', headers: headers });
   }
 
+  EnableInGameState(username : any){
+    const token = this.TS.GetToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(this.enableInGameStateEndpoint, {username}, {observe: 'response', headers: headers });
+  }
 
+  DisableInGameState(username : any){
+    const token = this.TS.GetToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(this.disableInGameStateEndpoint, {username}, {observe: 'response', headers: headers });
+  }
 
 
 }
