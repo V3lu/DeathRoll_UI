@@ -18,6 +18,7 @@ export class GameComponent {
 
     filter = signal('');
     similarRolls : any;
+    curentOpponentUsername : string = '';
 
     myForm! : FormGroup;
     constructor(private apiconn : APIConnectionService, private TC : JwtTokenContainerService, private loggedUserData : LoggedUserDataService, private fb : FormBuilder){
@@ -51,11 +52,8 @@ export class GameComponent {
     }
 
     AcceptRoll(roll : any): void{
+        this.curentOpponentUsername = roll.username;
         this.TriggerInGameStatusForBothPlayers(this.loggedUserData.LoggedUser.Id!, roll.username);
-    }
-
-    PlayRoll(){
-        
     }
 
     TriggerInGameStatusForBothPlayers(username1 : string, username2 : string): void {
@@ -90,5 +88,15 @@ export class GameComponent {
                 console.log(response)
             }),
         });
+    }
+
+    switchVis2(){
+        var item = document.getElementById('modal2')?.className;
+        if(item == "modal"){
+        document.getElementById('modal2')?.setAttribute("class", "modal is-active");
+        }
+        else{
+        document.getElementById('modal2')?.setAttribute("class", "modal");
+        }
     }
 }

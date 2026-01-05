@@ -18,7 +18,7 @@
                 <div class="column has-text-centered is-one-fifth">
 
                 </div>
-                <div class="column has-text-left" id="opponents">
+                <div class="column has-text-centered" id="opponents">
                   <strong>{{roll.username}}</strong>
                   {{roll.rollBase}}
                 </div>
@@ -71,3 +71,20 @@
   </div>
 </section>
 
+<div class="modal" id="modal2">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title"><strong>Game with {{curentOpponentUsername}} has been started</strong></p>
+      <button class="delete" aria-label="close" (click)="switchVis2()"></button>
+    </header>
+    <section class="modal-card-body">
+      Your turn to roll
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-warning" (click)="switchVis2()">Go back</button>
+      </div>
+    </footer>
+  </div>
+</div>
