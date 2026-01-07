@@ -53,14 +53,13 @@ export class GameComponent {
 
     AcceptRoll(roll : any): void{
         this.curentOpponentUsername = roll.username;
-        this.TriggerInGameStatusForBothPlayers(this.loggedUserData.LoggedUser.Id!, roll.username);
+        this.TriggerInGameStatusForBothPlayers(this.loggedUserData.LoggedUser.Username!, roll.username);
     }
 
     TriggerInGameStatusForBothPlayers(username1 : string, username2 : string): void {
         this.apiconn.EnableInGameState(username1)
         .pipe(
             map((response) => {
-                console.log(response);
                 return response;
             }),
             catchError((error) => {
@@ -76,7 +75,6 @@ export class GameComponent {
         this.apiconn.EnableInGameState(username2)
         .pipe(
             map((response) => {
-                console.log(response);
                 return response;
             }),
             catchError((error) => {
@@ -88,6 +86,8 @@ export class GameComponent {
                 console.log(response)
             }),
         });
+
+        this.switchVis2();
     }
 
     switchVis2(){
