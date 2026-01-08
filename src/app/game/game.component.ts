@@ -1,12 +1,11 @@
-import { Component, signal, Signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { APIConnectionService } from '../../../Services/apiconnection.service';
 import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
 import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { catchError, concatMap, map, single } from 'rxjs';
-import { Roll } from '../../../Models/Roll';
+import { catchError, concatMap, map } from 'rxjs';
 
 @Component({
     selector: 'app-game',

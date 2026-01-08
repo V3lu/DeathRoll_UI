@@ -9,7 +9,6 @@ import { map } from 'rxjs';
 import { JwtTokenContainerService } from '../../../Services/jwt-token-container.service';
 import { LoggedUserDataService } from '../../../Services/logged-user-data.service';
 import { User } from '../../../Models/User';
-import { Roll } from '../../../Models/Roll';
 
 
 @Component({
