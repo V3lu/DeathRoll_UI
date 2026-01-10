@@ -7,6 +7,7 @@ import { User } from '../Models/User';
 export class LoggedUserDataService {
 
   LoggedUser! : User;
+  CurrentOpponent! : User;
 
   constructor() { }
 

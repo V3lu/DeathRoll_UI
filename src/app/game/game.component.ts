@@ -46,6 +46,25 @@ export class GameComponent {
         })
     }
 
+    async PlaceSubsequentRoll() {
+        const userId = this.loggedUserData.LoggedUser.Id;
+
+        this.apiconn.GamePlaceRoll(userId, this.myForm.value.roll)
+        .pipe(
+            concatMap((PlaceRollResponse) => {
+                console.log('Roll placed');
+                return this.apiconn.SimilarBetOpponents(userId, this.myForm.value.roll);
+            })
+        ).subscribe({
+            next: (SimilarBetsResponse => {
+                this.similarRolls = SimilarBetsResponse.body;
+            }),
+            error: (error) => {
+                console.error('Error fetching similar bets:', error);
+            }
+        })
+    }
+
     FilterBets(event : any): void{
         this.filter.set(event.target.value);
     }
@@ -53,6 +72,20 @@ export class GameComponent {
     AcceptRoll(roll : any): void{
         this.curentOpponentUsername = roll.username;
         this.TriggerInGameStatusForBothPlayers(this.loggedUserData.LoggedUser.Username!, roll.username);
+        this.apiconn.GetOpponentData(roll.username)
+        .pipe(
+            map((response) => {
+                return response;
+            }),
+            catchError((error) => {
+                console.error('Error in AcceptRoll:', error);
+                throw error;
+            })
+        ).subscribe({
+            next : ((response : any) => {
+                console.log(response)
+            }),
+        });
     }
 
     TriggerInGameStatusForBothPlayers(username1 : string, username2 : string): void {
