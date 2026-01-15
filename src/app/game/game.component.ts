@@ -78,7 +78,7 @@ export class GameComponent {
                 return response;
             }),
             catchError((error) => {
-                console.error('Error in AcceptRoll:', error);
+                console.error('Error in GetOpponentData:', error);
                 throw error;
             })
         ).subscribe({
@@ -95,7 +95,7 @@ export class GameComponent {
                 return response;
             }),
             catchError((error) => {
-                console.error('Error in AcceptRoll:', error);
+                console.error('Error in TriggerInGameStatusForBothPlayers:', error);
                 throw error;
             })
         ).subscribe({
@@ -110,7 +110,7 @@ export class GameComponent {
                 return response;
             }),
             catchError((error) => {
-                console.error('Error in AcceptRoll:', error);
+                console.error('Error in TriggerInGameStatusForBothPlayers:', error);
                 throw error;
             })
         ).subscribe({
